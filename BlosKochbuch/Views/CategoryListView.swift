@@ -7,32 +7,30 @@ struct CategoryListView: View {
     @State private var errorMessage: String?
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if loading {
-                    ProgressView("Lade Kategorien…")
-                } else if let errorMessage {
-                    VStack(spacing: 12) {
-                        Text("Fehler")
-                            .font(.headline)
-                        Text(errorMessage)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                        Button("Neu laden") {
-                            Task { await load() }
-                        }
+        Group {
+            if loading {
+                ProgressView("Lade Kategorien…")
+            } else if let errorMessage {
+                VStack(spacing: 12) {
+                    Text("Fehler")
+                        .font(.headline)
+                    Text(errorMessage)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                    Button("Neu laden") {
+                        Task { await load() }
                     }
-                    .padding()
-                } else {
-                    List(categories) { category in
-                        NavigationLink(category.name) {
-                            RecipeListView(category: category)
-                        }
+                }
+                .padding()
+            } else {
+                List(categories) { category in
+                    NavigationLink(category.name) {
+                        RecipeListView(category: category)
                     }
                 }
             }
-            .navigationTitle("Kategorien")
         }
+        .navigationTitle("Kategorien")
         .task { await load() }
     }
 

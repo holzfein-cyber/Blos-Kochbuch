@@ -139,7 +139,7 @@ struct DailyTrackerView: View {
             Text(title)
             Spacer()
             Text(value)
-                .bold(!secondary)
+                .fontWeight(secondary ? .regular : .bold)
                 .foregroundColor(
                     highlight ? .red : secondary ? .secondary : .primary
                 )
@@ -165,4 +165,3 @@ struct DailyTrackerView: View {
         }
     }
 }
-
